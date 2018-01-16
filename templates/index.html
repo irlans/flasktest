@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        *{
+            text-align: center;
+            margin: 0 auto;
+        }
+        .info_table{
+            border: 1px solid;
+            margin-top: 40px;
+        }
+    </style>
+    <title>index</title>
+</head>
+<body>
+<div>
+    <table class="info_table" cellspacing="30px">
+        <tr>
+            <td>rid</td>
+            <td>camera_id</td>
+            <td>record_time</td>
+            <td>bgimg</td>
+            <td>imgName</td>
+            <td>result_face</td>
+            <td>camera_time</td>
+        </tr>
+        {% for i in content.data %}
+        <tr>
+            <td>{{ i.rid }}</td>
+            <td>{{ i.camera_id }}</td>
+            <td>{{ i.record_time }}</td>
+            <td>{{ i.bgimg }}</td>
+            <td>{{ i.imgName }}</td>
+            <td>{{ i.result_face }}</td>
+            <td>{{ i.camera_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>
