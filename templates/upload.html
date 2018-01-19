@@ -6,10 +6,22 @@
         *{
             text-align: center;
             margin: 0 auto;
+            list-style: none;
         }
         .fileupload{
             position: relative;
             top: 50px;
+        }
+        .imgshow{
+            position: relative;
+            top: 100px;
+        }
+        .imgshow ul li{
+            float: left;
+        }
+        .imgshow img{
+            width: 100px;
+            height:100px
         }
     </style>
     <title>upload</title>
@@ -24,5 +36,16 @@
             {{ content.info }}
         {% endif %}
     </div>
+    <div class="imgshow">
+        <ul>
+            {% for i in content.imginfo %}
+            <li>
+                <img src="/static/img/{{ i.imgurl }}.jpg" alt="{{ i.imgname }}">
+                </br>{{ i.imgname }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </body>
 </html>

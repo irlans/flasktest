@@ -3,6 +3,7 @@ from flask import Flask, render_template, request,redirect
 from models import *
 from werkzeug.utils import secure_filename
 import os
+import uuid
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://irlans:1995813zxc@192.168.1.224/test'
@@ -27,20 +28,29 @@ def index():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'GET':
-        return render_template('upload.html')
+        imgpath = Img.query.all()
+        content = {
+            'imginfo':imgpath
+        }
+
+        return render_template('upload.html',content=content)
     if request.method == 'POST':
         if request.files.values():
             file = request.files['file']
             filename = secure_filename(file.filename)
-            try:
-                img = Img(imgname=file.filename)
-                file.save(os.path.join(os.path.dirname(__file__)+'/static/img',filename))
-                db.session.add(img)
-                db.session.commit()
-            except:
-                pass
+            imgurl = str(uuid.uuid4())
+
+            img = Img(imgname=str(file.filename),imgurl=imgurl)
+
+            file.save(os.path.join(os.path.dirname(__file__)+'/static/img',imgurl+'.jpg'))
+
+            db.session.add(img)
+            db.session.commit()
+
+            imgpath = Img.query.all()
             content = {
-                'info': 'success!'
+                'info': 'success!',
+                'imginfo':imgpath
             }
             return render_template('upload.html', content=content)
         else:
