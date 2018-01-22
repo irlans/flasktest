@@ -21,3 +21,4 @@ class test(db.Model):
 class Img(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     imgname = db.Column(db.VARCHAR(255))
+    imgurl = db.Column(db.VARCHAR(255))
