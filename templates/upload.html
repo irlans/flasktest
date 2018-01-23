@@ -20,32 +20,31 @@
             float: left;
         }
         .imgshow img{
-            width: 100px;
-            height:100px
+            width: 200px;
+            height:200px;
         }
     </style>
     <title>upload</title>
 </head>
 <body>
     <form action="/upload" method="post" enctype="multipart/form-data" class="fileupload">
-        <input type="file" name="file">
+        <input type="file" name="file1">
+        <input type="file" name="file2">
         <input type="submit" value="上传">
     </form>
-    <div>
-        {% if content %}
+    {% if content %}
+        <div>
+
             {{ content.info }}
-        {% endif %}
-    </div>
-    <div class="imgshow">
-        <ul>
-            {% for i in content.imginfo %}
-            <li>
-                <img src="/static/img/{{ i.imgurl }}.jpg" alt="{{ i.imgname }}">
-                </br>{{ i.imgname }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+        </div>
+        <div class="imgshow">
+            <img src="/static/img/pv/{{ content.img1 }}" alt="img1">
+            <img src="/static/img/pv/{{ content.img2 }}" alt="img2">
+            <br/>
+            <img src="/static/img/pv/{{ content.fid }}" alt="fid">
+            <span>相似度为:{{ content.result }}%</span>
+        </div>
+    {% endif %}
 
 </body>
 </html>

@@ -4,6 +4,8 @@ from models import *
 from werkzeug.utils import secure_filename
 import os
 import uuid
+import socket
+import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://irlans:1995813zxc@192.168.1.224/test'
@@ -28,29 +30,71 @@ def index():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'GET':
-        imgpath = Img.query.all()
-        content = {
-            'imginfo':imgpath
-        }
-
-        return render_template('upload.html',content=content)
+        return render_template('upload.html')
     if request.method == 'POST':
+        print(request.files.values())
         if request.files.values():
-            file = request.files['file']
-            filename = secure_filename(file.filename)
-            imgurl = str(uuid.uuid4())
+            file1 = request.files['file1']
+            file2 = request.files['file2']
+            filename1 = secure_filename(file1.filename)
+            imgurl1 = str(uuid.uuid4())
+            imgurl2 = str(uuid.uuid4())
 
-            img = Img(imgname=str(file.filename),imgurl=imgurl)
 
-            file.save(os.path.join(os.path.dirname(__file__)+'/static/img',imgurl+'.jpg'))
 
-            db.session.add(img)
-            db.session.commit()
 
-            imgpath = Img.query.all()
+
+            file1.save(os.path.join(os.path.dirname(__file__)+'/static/img/pv',imgurl1+'.jpg'))
+            file2.save(os.path.join(os.path.dirname(__file__)+'/static/img/pv',imgurl2+'.jpg'))
+
+            s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            s.connect(('192.168.1.112',51005))
+
+            onedata = {
+                'dbIndex':'pv',
+                'jobType':0,
+                'images':[imgurl1+'.jpg',imgurl2+'.jpg']
+            }
+            s.send(json.dumps(onedata))
+            replay = json.loads(s.recv(1024))
+            s.close()
+            info = ''
+            result = replay['result']
+            fid = replay['fid']
+
+            print(replay)
+            if replay['jobType'] == 0:
+                info = 'success'
+            elif replay['jobType'] == -1:
+                info = 'db error'
+            elif replay['jobType'] == -2:
+                info = 'feature error'
+            elif replay['jobType'] == -3:
+                info = 'face rect error'
+            elif replay['jobType'] == -4:
+                info = 'no face'
+            elif replay['jobType'] == -5:
+                info = 'file error'
+
+
+            print(info)
+
+
+
+            # img1 = Img(imgname=str(file1.filename),imgurl=imgurl1)
+            # img2 = Img(imgname=str(file2.filename),imgurl=imgurl2)
+            # db.session.add(img1)
+            # db.session.add(img2)
+            # db.session.commit()
+            #
+            # imgpath = Img.query.all()
             content = {
-                'info': 'success!',
-                'imginfo':imgpath
+                'info': info,
+                'img1':imgurl1+'.jpg',
+                'img2':imgurl2+'.jpg',
+                'fid':fid+'.jpg',
+                'result':'%.2f'%(float(result)*100)
+                # 'imginfo':imgpath
             }
             return render_template('upload.html', content=content)
         else:
