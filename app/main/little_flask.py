@@ -75,7 +75,14 @@ def student_index():
         content = {
             'studentinfo':studentinfo
         }
-    return render_template('student_index.html',content=content)
+        return render_template('student_index.html',content=content)
+
+@auth.route('/index/change/<string:sid>',methods = ['GET'])
+def student_handle(sid):
+    studentinfo = StudentInfo.query.filter_by(sid = sid).first()
+    sname = studentinfo.sname
+    sphoto = studentinfo.sphoto
+    return render_template('student_change.html')
 
 
 # def apprun():
