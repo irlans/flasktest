@@ -68,7 +68,14 @@ def locationinfo():
         }
         return render_template('locationinfo.html',content = content)
 
-
+@auth.route('/index',methods = ['GET','POST'])
+def student_index():
+    if request.method == 'GET':
+        studentinfo = StudentInfo.query.all()
+        content = {
+            'studentinfo':studentinfo
+        }
+    return render_template('student_index.html',content=content)
 
 
 # def apprun():

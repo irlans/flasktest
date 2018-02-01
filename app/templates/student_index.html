@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        * {
+            text-align: center;
+            margin: 0 auto;
+            text-decoration: none;
+        }
+        .studentinfo {
+            position: relative;
+            top: 20px;
+        }
+
+        table {
+            border: 1px solid;
+        }
+        img{
+            width: 50px;
+            height:70px;
+        }
+    </style>
+    <title>学生列表</title>
+</head>
+<body>
+<div class="studentinfo">
+    <table cellpadding="20px">
+        <tr>
+            <th>学生姓名</th>
+            <th>学生图片</th>
+        </tr>
+        {% if content %}
+            {% for i in content.studentinfo %}
+                <tr>
+                    <td><a href="">{{ i.sname }}</a></td>
+                    <td><img src="//192.168.1.224:80/{{ i.sphoto }}.jpg" alt="{{ i.sphoto }}" w></td>
+                    <td><a href="index/change/{{ i.sid }}">修改</a></td>
+                    <td><a href="index/del/{{ i.sid }}">删除</a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+</div>
+</body>
+</html>
