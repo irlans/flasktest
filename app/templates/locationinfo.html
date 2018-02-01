@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        * {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .locationinfo {
+            position: relative;
+            top: 20px;
+        }
+
+        table {
+            border: 1px solid;
+        }
+    </style>
+    <script>
+        function myrefresh() {
+            window.location.reload();
+        }
+
+        setTimeout('myrefresh()', 5000); //指定1秒刷新一次
+    </script>
+    <title>学生位置信息</title>
+</head>
+<body>
+<div class="locationinfo">
+    <table cellpadding="20px">
+        <tr>
+            <th>摄像头位置</th>
+            <th>学生姓名</th>
+            <th>时间</th>
+        </tr>
+        {% if content %}
+            {% for i in content.ltioninfo %}
+                <tr>
+                    <td>{{ i.cinfo.cadress }}</td>
+                    <td>{{ i.sinfo.sname }}</td>
+                    <td>{{ i.datetime }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+git<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        * {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        form {
+            position: relative;
+            top: 100px;
+            width: 400px;
+        }
+
+        .info div {
+            float: left;
+        }
+
+    </style>
+    <title>学生信息入库</title>
+</head>
+<body>
+<div class="info">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% if content %}
+            <div style="position: relative;left: 80px">
+                <span>{{ content.message }}</span>
+            </div>
+            <br>
+        {% endif %}
+        <div>
+            <span>学生姓名:</span>
+            <input type="text" placeholder="请输入学生姓名" name="sname">
+        </div>
+        <br>
+        <div>
+            <span>学生照片:</span>
+            <input type="file" name="sphoto">
+        </div>
+        <input type="submit" value="提交">
+    </form>
+</div>
+</body>
+</html>
